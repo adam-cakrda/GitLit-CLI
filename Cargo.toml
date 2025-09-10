@@ -11,7 +11,7 @@ homepage = "https://gitlit.rostiapp.cz/adam-cakrda/GitLit-CLI"
 edition = "2024"
 
 [[bin]]
-name = "gitlit-cli"
+name = "cli"
 path = "src/cli.rs"
 
 [dependencies]

@@ -1,9 +1,9 @@
 # GitLit-CLI
-<img src="https://raw.githubusercontent.com/adam-cakrda/GitLit/refs/heads/master/public/gitlit.svg" alt="GitLit Logo" width="100">
+![logo](https://raw.githubusercontent.com/adam-cakrda/GitLit/refs/heads/master/public/gitlit.svg)
 
 A simple cli and library for GitLit API
 ---
-[github.com/adam-cakrda/GitLit](https://github.com/adam-cakrda/GitLit) - Server
+[github.com/adam-cakrda/GitLit](https://github.com/adam-cakrda/GitLit)
 ---
 
 ### Why?

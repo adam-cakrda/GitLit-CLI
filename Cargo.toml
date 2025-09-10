@@ -1,0 +1,18 @@
+[package]
+name = "GitLit-CLI"
+version = "0.1.0"
+authors = ["adam-cakrda <cakrda@outlook.cz>"]
+license = "MIT"
+repository = "https://gitlit.rostiapp.cz/adam-cakrda/GitLit-CLI"
+description = "A simple cli and library for GitLit API"
+keywords = ["gitlit", "api", "wrapper"]
+readme = "README.md"
+homepage = "https://gitlit.rostiapp.cz/adam-cakrda/GitLit-CLI"
+edition = "2024"
+
+[[bin]]
+name = "gitlit-cli"
+path = "src/cli.rs"
+
+[dependencies]
+reqwest = "0.12.23"

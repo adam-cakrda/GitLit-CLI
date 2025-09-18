@@ -46,7 +46,13 @@ pub enum Commands {
 async fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
 
-    let client = GitLitClient::new(&cli.url)?;
+    let url = if cli.url.starts_with("http://") || cli.url.starts_with("https://") {
+        cli.url.clone()
+    } else {
+        format!("https://{}", cli.url)
+    };
+
+    let client = GitLitClient::new(&url)?;
     match cli.command {
         Commands::Login { login, password } => {
             let token = client.login(&login, &password).await?;

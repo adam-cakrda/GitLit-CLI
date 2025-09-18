@@ -38,4 +38,4 @@ jobs:
         with:
           name: gitlit-${{ matrix.os }}
           path: |
-            target/release/gitlit*
+            ${{ runner.os == 'Windows' && 'target/release/gitlit.exe' || 'target/release/gitlit' }}

@@ -45,6 +45,9 @@ pub struct Branch { pub is_head: bool, pub name: String, pub oid: String, pub up
 pub struct BranchesResponse { pub branches: Vec<Branch> }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BrancheDeleteResponse { pub message: String }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CommitInfo { pub hash: String, pub name: String, pub email: String, pub timestamp_secs: i64, pub subject: String }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -185,6 +188,18 @@ impl GitLitClient {
         Ok(res.json::<BranchesResponse>().await?)
     }
 
+    pub async fn delete_branch(&self, id: &str, branch: &str) -> Result<BrancheDeleteResponse, GitLitError> {
+        let url = format!("{}/api/v1/branch", self.url);
+        let req = self.http
+            .delete(url)
+            .query(&[("id", id), ("branch", branch)]);
+        let req = self.auth(req).await?;
+        let res = req.send().await?;
+        if !res.status().is_success() {
+            return Err(GitLitError::Auth(format!("delete_branch failed: {}", res.status())));
+        }
+        Ok(res.json::<BrancheDeleteResponse>().await?)
+    }
 
     pub async fn commits(&self, id: &str, branch: Option<&str>, limit: Option<u32>) -> Result<Vec<CommitInfo>, GitLitError> {
         let url = format!("{}/api/v1/commits", self.url);

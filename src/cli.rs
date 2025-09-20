@@ -37,6 +37,10 @@ pub enum Commands {
     },
     DeleteRepo { #[arg(long)] id: String },
     Branches { #[arg(long)] id: String },
+    DeleteBranch {
+        #[arg(long)] id: String,
+        #[arg(long)] branch: String,
+    },
     Commits { #[arg(long)] id: String, #[arg(long)] branch: Option<String>, #[arg(long)] limit: Option<u32> },
     Content { #[arg(long)] id: String, #[arg(long)] path: Option<String>, #[arg(long)] branch: Option<String>, #[arg(long)] commit: Option<String> },
     Download { #[arg(long)] id: String, #[arg(long)] path: Option<String>, #[arg(long)] branch: Option<String>, #[arg(long)] commit: Option<String>, #[arg(long)] out: String },
@@ -93,6 +97,22 @@ async fn main() -> anyhow::Result<()> {
         Commands::Branches { id } => {
             let br = client.branches(&id).await?;
             println!("{}", serde_json::to_string_pretty(&json!({"status":"ok","branches": br.branches}))?);
+        }
+        Commands::DeleteBranch { id, branch } => {
+            match client.delete_branch(&id, &branch).await {
+                Ok(res) => {
+                    println!("{}", serde_json::to_string_pretty(&json!({
+                "status": "ok",
+                "message": res.message
+            }))?);
+                }
+                Err(e) => {
+                    println!("{}", serde_json::to_string_pretty(&json!({
+                "status": "error",
+                "error": e.to_string()
+            }))?);
+                }
+            }
         }
         Commands::Commits { id, branch, limit } => {
             let commits = client.commits(&id, branch.as_deref(), limit).await?;
